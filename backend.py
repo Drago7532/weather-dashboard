@@ -6,10 +6,6 @@ load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 
-# Validation
-if not API_KEY:
-    raise ValueError("API_KEY not found. Please add it to your .env file")
-
 
 def get_data(place, forecast_days=None):
     url = f"http://api.openweathermap.org/data/2.5/forecast?q={place}&appid={API_KEY}&units=metric"
