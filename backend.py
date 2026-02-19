@@ -1,10 +1,14 @@
 import requests
 import os
-from dotenv import load_dotenv
+import streamlit as st
 
-load_dotenv()
 
-API_KEY = os.getenv("API_KEY")
+try:
+    API_KEY = st.secrets["API_KEY"] # Streamlit cloud
+except:
+    from dotenv import load_dotenv
+    load_dotenv()
+    API_KEY = os.getenv("API_KEY") # Local
 
 
 def get_data(place, forecast_days=None):
