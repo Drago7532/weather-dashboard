@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.express as px
 from datetime import datetime
+import pandas as pd
 
 from backend import get_data
 from pathlib import Path
@@ -47,17 +48,19 @@ if place:
                 labels={"x": "Date", "y": "Temperature (C)"},
             )
 
+            # Additional weather data table
+            df = pd.DataFrame({
+                "Date/Time": dates,
+                "Temperature (°C)": temperatures,
+                "Humidity (%)": humidities,
+                "Dew Point (°C)": dew_points
+            })
+
             st.plotly_chart(figure)
 
             st.header("Additional Weather Details")
+            st.dataframe(df, hide_index=True, use_container_width=True)
 
-            for date, temp, hum, dew in zip(dates, temperatures, humidities, dew_points):
-                st.markdown(f"### {date}")
-                col1, col2, col3 = st.columns(3)
-
-                col1.metric("Temp", f"{temp:.1f}°C")
-                col2.metric("Humidity", f"{hum}%")
-                col3.metric("Dew Point", f"{dew:.2f}°C")
 
         if option == "Sky":
             BASE_DIR = Path(__file__).parent
